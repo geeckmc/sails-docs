@@ -1,23 +1,23 @@
-# Assets
+# Ressources
 
-### Overview
+### Aperçu
 
-Assets refer to [static files](http://en.wikipedia.org/wiki/Static_web_page) (js, css, images, etc) on your server that you want to make accessible to the outside world.  In Sails, these files are placed in the [`assets/`](http://sailsjs.org/documentation/anatomy/myApp/assets) folder.  When you lift your app, add files to your `assets/` folder, or change existing assets, Sails' built-in asset pipeline processes and syncs those files to a hidden folder (`.tmp/public/`).
+Les ressources designent l'ensemble des fichiers  [statiques] (https://fr.wikipedia.org/wiki/Page_web_statique) (js, css, images, etc) sur votre serveur que vous voulez rendre accesible a vos visiteurs.Dans le framework sails ces fichiers se trouvent dans le repertoire `assets/` a la racine du projet. Une fois lancer vous pouvez ajouter des fichiers au repertoire assets ou en modifié ceux qui y sont. Pour des raisons de performance sails déplace au chargement ces fichiers vers le repertoire caché (`.tmp/public/`).
 
-> This intermediate step (moving files from `assets/` into `.tmp/public/`) allows Sails to pre-process assets for use on the client - things like LESS, CoffeeScript, SASS, spritesheets, Jade templates, etc.
+> Cette étape intermédiaire (déplacement des fichiers depuis`assets/` vers `.tmp/public/`) permet à Sails de pré-processer les ressources pour une utilisation côté client pour des choses commes LESS, CoffeeScript, SASS, spritesheets, Jade templates, etc.
 
-The contents of this `.tmp/public` folder are what Sails actually serves at runtime.  This is roughly equivalent to the "public" folder in [express](https://github.com/expressjs), or the `www/` folder you might be familiar with from other web servers like Apache.
+Le contenu de ce dossier `.tmp/public` est la raisons pour laquelle Sails sert actuellement d'envirronement d'exécution.  Cela est légerment équivalent au dossier "public" dans [express](https://github.com/expressjs), ou au repertoire `www/` du serveur Apache.
 
 
-### Static middleware
+### intergiciel(middleware) Statique
 
-Behind the scenes, Sails uses the [static middleware](http://www.senchalabs.org/connect/static.html) from Express to serve your assets. You can configure this middleware (e.g. cache settings) in [`/config/http.js`](http://sailsjs.org/documentation/reference/sails.config/sails.config.http.html).
+De façon transparente Sails utilise les mediateur [static middleware](http://www.senchalabs.org/connect/static.html) de Express pour servir vos ressources. Vous pouvez configurer cet intergiciel (e.g. le cache) dans le fichier [`/config/http.js`](http://sailsjs.org/documentation/reference/sails.config/sails.config.http.html).
 
 ##### `index.html`
-Like most web servers, Sails honors the `index.html` convention.  For instance, if you create `assets/foo.html` in a new Sails project, it will be accessible at `http://localhost:1337/foo.html`.  But if you create `assets/foo/index.html`, it will be available at both `http://localhost:1337/foo/index.html` and `http://localhost:1337/foo`.
+Sails bien entendu honore la convention web`index.html`.  Par example, si vous crée une ressources html `assets/foo.html` dans votre projet, Il sera accessible à`http://localhost:1337/foo.html`.  Mais si vous le creer dans le sous repertoire `foo` comme suit `assets/foo/index.html`, il sera disponible aux adresses`http://localhost:1337/foo/index.html` et `http://localhost:1337/foo`.
 
-##### Precedence
-It is important to note that the static [middleware](http://stephensugden.com/middleware_guide/) is installed **after** the Sails router.  So if you define a [custom route](http://sailsjs.org/documentation/concepts/Routes?q=custom-routes), but also have a file in your assets directory with a conflicting path, the custom route will intercept the request before it reaches the static middleware. For example, if you create `assets/index.html`, with no routes defined in your [`config/routes.js`](http://sailsjs.org/documentation/reference/sails.config/sails.config.routes.html) file, it will be served as your home page.  But if you define a custom route, `'/': 'FooController.bar'`, that route will take precedence.
+##### Priorité
+Il est important de noté que l'intergiciel [middleware](http://stephensugden.com/middleware_guide/) est installé **après** le routeur de Sails.  Donc si vous definisser vos [chemin](routes) personnalisés (http://sailsjs.org/documentation/concepts/Routes?q=custom-routes), mais que vous avez aussi vos ressources dans le repertoire `assets` avec un conflits de chemin, la route défini plutôt sera priorisé. Par example, si vou crée un fichier `assets/index.html`, sans définir de route pour celui-ci dans le fichier [`config/routes.js`](http://sailsjs.org/documentation/reference/sails.config/sails.config.routes.html) , Il servira de page d'acceuil pour votre application. Mais a partir du moments ou vous définissez une route personnalisé comme ceci: `'/': 'FooController.bar'`, celle ci deviendra prioritaire.
 
 
 
